@@ -1,0 +1,74 @@
+version: '3.1'
+
+services:
+  db:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - url-shortner
+    env_file:
+      - ./server/.env
+      - ./.env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
+    volumes:
+      - ./.docker/volumes/db:/data/db
+  server:
+    depends_on:
+      - db
+    image: ${DC_SERVER_IMAGE}
+    restart: always
+    ports:
+      - ${DC_SERVER_PORT}:${DC_SERVER_PORT}
+    networks:
+      - url-shortner
+    env_file:
+      - ./server/.env
+      - ./.env
+    environment:
+      - APP_PORT=${DC_SERVER_PORT}
+    links:
+      - db:db
+    build:
+      context: ./server/.
+      dockerfile: $PWD/server/Dockerfile
+    volumes:
+      - ./server/.:/usr/app/
+      - url-shortner-server-node_modules:/usr/app/node_modules
+    working_dir: /usr/app/
+    command: "${DC_SERVER_COMMAND}"
+  client:
+    depends_on:
+      - server
+    image: ${DC_CLIENT_IMAGE}
+    restart: always
+    ports:
+      - ${DC_CLIENT_PORT}:${DC_CLIENT_PORT}
+      - ${DC_CLIENT_HMR_PORT}:${DC_CLIENT_HMR_PORT}
+    networks:
+      - url-shortner
+    env_file:
+      - ./.env
+      - ./client/.env
+    environment:
+      - APP_PORT=${DC_CLIENT_PORT}
+      - APP_HMR_PORT=${DC_CLIENT_HMR_PORT}
+    links:
+      - server:server
+    build:
+      context: ./client/.
+      dockerfile: $PWD/client/Dockerfile
+    volumes:
+      - ./client/.:/usr/app/
+      - url-shortner-client-node_modules:/usr/app/node_modules
+    working_dir: /usr/app/
+    command: "${DC_CLIENT_COMMAND}"
+networks:
+  url-shortner:
+    driver: bridge
+volumes:
+  url-shortner-server-node_modules:
+  url-shortner-client-node_modules:

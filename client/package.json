@@ -1,0 +1,29 @@
+{
+  "name": "node_billing_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel serve --port=${APP_PORT} ./index.html --hmr-port=${APP_HMR_PORT}",
+    "start": "parcel serve --port=${APP_PORT} ./index.html --no-hmr"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "bootstrap": "^4.4.1",
+    "dotenv": "^8.2.0",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "parcel-bundler": "^1.12.4",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-hook-form": "^4.9.2",
+    "react-router-dom": "^5.1.2",
+    "reactstrap": "^8.4.1"
+  },
+  "devDependencies": {
+  }
+}

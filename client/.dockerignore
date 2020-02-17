@@ -1,0 +1,14 @@
+.*
+
+node_modules
+tmp
+
+Dockerfile
+*.yml
+*.yaml
+
+*.conf
+
+test
+dist
+.cache
