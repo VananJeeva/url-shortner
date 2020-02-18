@@ -1,6 +1,8 @@
 const { Url } = require('../models/url')
 const shortid = require('shortid')
 
+const { addHttp } = require('../helpers/basic')
+
 module.exports.create = async function (req, res) {
   const { originalUrl } = req.body
 
@@ -14,7 +16,7 @@ module.exports.create = async function (req, res) {
 
   const url = await Url.create({
     user: req.user._id,
-    originalUrl,
+    originalUrl: addHttp(originalUrl),
     code
   })
 
@@ -29,6 +31,7 @@ module.exports.create = async function (req, res) {
 module.exports.update = async function (req, res) {
   const _id = req.params._id
   const data = req.body
+  data.originalUrl = addHttp(data.originalUrl)
 
   const url = await Url.findOneAndUpdate(
     {
