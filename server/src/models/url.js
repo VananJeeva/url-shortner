@@ -36,4 +36,8 @@ const urlSchema = new mongoose.Schema(
   }
 )
 
+urlSchema.virtual('tinyurl').get(function () {
+  return `${config.app.url}/${this.code}`
+})
+
 module.exports.Url = mongoose.model('Url', urlSchema)

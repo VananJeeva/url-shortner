@@ -1,6 +1,7 @@
 import axios from 'axios'
+import config from './config'
 
-const serverUrl = process.env.SERVER_URL
+const serverUrl = config.serverUrl
 
 const localAuthData = localStorage.getItem('auth')
 var storedAuthData = localAuthData && JSON.parse(localAuthData)
@@ -41,4 +42,12 @@ export function authenticate (data) {
 
 export function logout (data) {
   return api.post('/api/users/logout-all', data)
+}
+
+export function urlsList (data) {
+  return api.get('/api/urls', data)
+}
+
+export function urlDetails (_id, data) {
+  return api.get('/api/urls/' + _id, data)
 }

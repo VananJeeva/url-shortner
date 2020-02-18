@@ -10,6 +10,7 @@ import { Dashboard } from './pages/Dashboard'
 import AuthRoute from './components/AuthRoute'
 import BeforeAuthRoute from './components/BeforeAuthRoute'
 import { Logout } from './pages/Logout'
+import { UrlDetails } from './pages/UrlDetails'
 
 export function Router () {
   return (
@@ -23,6 +24,7 @@ export function Router () {
             <BeforeAuthRoute exact path='/login' component={Login} />
             <AuthRoute exact path='/dashboard' component={Dashboard} />
             <AuthRoute exact path='/logout' component={Logout} />
+            <AuthRoute exact path='/url/:_id' component={UrlDetails} />
           </Switch>
         </Suspense>
       </Container>
