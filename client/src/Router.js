@@ -11,6 +11,8 @@ import AuthRoute from './components/AuthRoute'
 import BeforeAuthRoute from './components/BeforeAuthRoute'
 import { Logout } from './pages/Logout'
 import { UrlDetails } from './pages/UrlDetails'
+import { UrlCreate } from './pages/UrlCreate'
+import { UrlUpdate } from './pages/UrlUpdate'
 
 export function Router () {
   return (
@@ -24,7 +26,9 @@ export function Router () {
             <BeforeAuthRoute exact path='/login' component={Login} />
             <AuthRoute exact path='/dashboard' component={Dashboard} />
             <AuthRoute exact path='/logout' component={Logout} />
-            <AuthRoute exact path='/url/:_id' component={UrlDetails} />
+            <AuthRoute exact path='/url/view/:_id' component={UrlDetails} />
+            <AuthRoute exact path='/url/create' component={UrlCreate} />
+            <AuthRoute exact path='/url/edit/:_id' component={UrlUpdate} />
           </Switch>
         </Suspense>
       </Container>

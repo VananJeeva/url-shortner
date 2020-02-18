@@ -1,18 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import validator from 'validator'
 import { Row, Col, Card, CardTitle, CardBody, FormGroup, Label, Input, CardFooter, Button } from 'reactstrap'
-import { authenticate } from '../utils/api'
-import { useHistory } from 'react-router-dom'
-import { useAuth } from '../contexts/auth'
+import { urlDetails, urlUpdate } from '../utils/api'
+import { useHistory, useParams } from 'react-router-dom'
 
-export function Login () {
+export function UrlUpdate () {
   const history = useHistory()
-  const { setAuthData } = useAuth()
-  const { register, handleSubmit } = useForm()
+  const { _id } = useParams()
+  const { register, handleSubmit, setValue } = useForm()
 
+  useEffect(() => {
+    urlDetails(_id).then(response => {
+      setValue('originalUrl', response.url.originalUrl)
+    })
+  }, [])
   const onSubmit = function (data) {
-    authenticate(data).then(response => {
-      setAuthData(response)
+    urlUpdate(_id, data).then(response => {
       history.push('/dashboard')
     })
   }
@@ -22,30 +26,17 @@ export function Login () {
       <Col>
         <Card>
           <CardBody>
-            <CardTitle className='text-center'>Login</CardTitle>
+            <CardTitle className='text-center'>Update Url</CardTitle>
             <Row className='mt-3'>
               <Col>
                 <FormGroup>
                   <Label>
-                    Username or Email
+                    Original Url
                   </Label>
                   <Input
-                    name='username'
+                    name='originalUrl'
                     innerRef={register({
-                      required: 'Please enter username'
-                    })}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label>
-                    Password
-                  </Label>
-                  <Input
-                    name='password'
-                    type='password'
-                    innerRef={register({
-                      required: true,
-                      minLength: 6
+                      validate: value => validator.isURL(value)
                     })}
                   />
                 </FormGroup>
@@ -57,7 +48,7 @@ export function Login () {
               <Col>
                 <div className='d-flex align-items-center justify-content-end'>
                   <Button type='submit' onClick={handleSubmit(onSubmit)}>
-                    Login
+                    Update
                   </Button>
                 </div>
               </Col>

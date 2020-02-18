@@ -51,3 +51,15 @@ export function urlsList (data) {
 export function urlDetails (_id, data) {
   return api.get('/api/urls/' + _id, data)
 }
+
+export function urlCreate (data) {
+  return api.post('/api/urls', data)
+}
+
+export function urlUpdate (_id, data) {
+  return api.post('/api/urls/' + _id, data)
+}
+
+export function urlDelete (_id, data) {
+  return api.delete('/api/urls/' + _id)
+}

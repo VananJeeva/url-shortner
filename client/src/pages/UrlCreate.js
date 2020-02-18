@@ -1,17 +1,18 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import validator from 'validator'
 import { Row, Col, Card, CardTitle, CardBody, FormGroup, Label, Input, CardFooter, Button } from 'reactstrap'
-import { register as apiRegister } from '../utils/api'
+import { urlCreate } from '../utils/api'
 import { useHistory } from 'react-router-dom'
 
-export function Register () {
+export function UrlCreate () {
   const history = useHistory()
   const { register, handleSubmit } = useForm()
 
   const onSubmit = function (data) {
-    apiRegister(data).then(response => {
+    urlCreate(data).then(response => {
       if (response) {
-        history.push('/login')
+        history.push('/dashboard')
       }
     })
   }
@@ -21,41 +22,17 @@ export function Register () {
       <Col>
         <Card>
           <CardBody>
-            <CardTitle className='text-center'>Register</CardTitle>
+            <CardTitle className='text-center'>Create Url</CardTitle>
             <Row className='mt-3'>
               <Col>
                 <FormGroup>
                   <Label>
-                    Username
+                    Original Url
                   </Label>
                   <Input
-                    name='username'
+                    name='originalUrl'
                     innerRef={register({
-                      required: 'Please enter username'
-                    })}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label>
-                    Email
-                  </Label>
-                  <Input
-                    name='email'
-                    innerRef={register({
-                      required: 'Please enter email'
-                    })}
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label>
-                    Password
-                  </Label>
-                  <Input
-                    name='password'
-                    type='password'
-                    innerRef={register({
-                      required: true,
-                      minLength: 6
+                      validate: value => validator.isURL(value)
                     })}
                   />
                 </FormGroup>
