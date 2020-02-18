@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon --inspect --watch . ./index.js",
-    "start": "node ./index.js"
+    "start": "node ./index.js",
+    "lint": "standard --fix | snazzy",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +22,8 @@
     "mongoose": "^5.8.11"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "jest": "^25.1.0",
+    "nodemon": "^2.0.2",
+    "standard": "^14.3.1"
   }
 }
