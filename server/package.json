@@ -1,5 +1,5 @@
 {
-  "name": "node_billing_app",
+  "name": "url-shortner-server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
+    "bcrypt": "^3.0.8",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
@@ -25,5 +26,25 @@
     "jest": "^25.1.0",
     "nodemon": "^2.0.2",
     "standard": "^14.3.1"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ],
+    "ignore": [
+      "tmp",
+      "node_modules"
+    ]
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "testEnvironment": "node",
+    "coverageDirectory": "./tmp/coverage/",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{ts,js}"
+    ]
   }
 }
