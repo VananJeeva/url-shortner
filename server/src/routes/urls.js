@@ -10,5 +10,6 @@ router.post('/:_id', urls.update)
 router.delete('/:_id', urls.delete)
 router.get('/:_id', urls.details)
 router.get('/', urls.list)
+router.get('/:_id/analytics', urls.analytics)
 
 module.exports = router

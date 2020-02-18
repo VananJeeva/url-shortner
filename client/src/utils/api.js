@@ -63,3 +63,7 @@ export function urlUpdate (_id, data) {
 export function urlDelete (_id, data) {
   return api.delete('/api/urls/' + _id)
 }
+
+export function urlAnalytics (_id) {
+  return api.get('/api/urls/' + _id + '/analytics')
+}

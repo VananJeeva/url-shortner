@@ -59,6 +59,9 @@ export function Dashboard () {
                 TinyURL
               </Col>
               <Col>
+                Hits
+              </Col>
+              <Col>
                 Actions
               </Col>
             </Row>
@@ -71,6 +74,7 @@ export function Dashboard () {
                       {url.tinyurl}
                     </Badge>
                   </Col>
+                  <Col>{url.hits}</Col>
                   <Col>
                     <ButtonGroup>
                       <Button

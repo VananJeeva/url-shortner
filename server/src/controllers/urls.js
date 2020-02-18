@@ -1,5 +1,6 @@
 const shortid = require('shortid')
 
+const mongoose = require('mongoose')
 const { Url } = require('../models/url')
 const { Analytics } = require('../models/analytics')
 const { addHttp } = require('../helpers/basic')
@@ -117,4 +118,37 @@ module.exports.redirect = async function (req, res) {
   } else {
     return res.status(404).send('Page not found')
   }
+}
+
+module.exports.analytics = async function (req, res) {
+  const { _id } = req.params
+
+  const analytics = await Analytics.aggregate([
+    { $match: { url: mongoose.Types.ObjectId(_id) } },
+    {
+      $group: {
+        _id: {
+          $dateToString: {
+            format: '%Y-%m-%d',
+            date: '$createdAt'
+          }
+        },
+        value: {
+          $sum: 1
+        }
+      }
+    },
+    {
+      $addFields: {
+        label: '$_id'
+      }
+    }
+  ])
+
+  return res.send({
+    status: 200,
+    data: {
+      analytics
+    }
+  })
 }

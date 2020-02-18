@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Row, Col, Card, CardTitle, CardBody, Badge } from 'reactstrap'
 import { urlDetails } from '../utils/api'
 import { useParams } from 'react-router-dom'
+import { UrlAnalytics } from './UrlAnalytics'
 
 export function UrlDetails () {
   const { _id } = useParams()
@@ -27,6 +28,9 @@ export function UrlDetails () {
               <Col>
                 TinyURL
               </Col>
+              <Col>
+                Hits
+              </Col>
             </Row>
             {url && (
               <Row className='mt-2' key={url._id}>
@@ -36,8 +40,16 @@ export function UrlDetails () {
                     {url.tinyurl}
                   </Badge>
                 </Col>
+                <Col>{url.hits}</Col>
               </Row>
             )}
+            <Row className='mt-5'>
+              <Col>
+                <div className='d-flex justify-content-center'>
+                  <UrlAnalytics _id={_id} />
+                </div>
+              </Col>
+            </Row>
           </CardBody>
         </Card>
       </Col>
