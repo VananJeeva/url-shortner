@@ -1,35 +1,76 @@
 const mongoose = require('mongoose')
+const validator = require('validator')
 const bcrypt = require('bcrypt')
-const SALT_WORK_FACTOR = 10
+const jwt = require('jsonwebtoken')
 
-const UserSchema = new mongoose.Schema(
+const config = require('../config/')
+
+const userSchema = new mongoose.Schema(
   {
-    username: { type: String, required: true, index: { unique: true } },
-    email: { type: String, required: true, index: { unique: true } },
-    password: { type: String, required: true }
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+      index: {
+        unique: true
+      }
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      index: {
+        unique: true
+      },
+      validate: value => {
+        if (!validator.isEmail(value)) {
+          throw new Error({ error: 'Invalid Email address' })
+        }
+      }
+    },
+    password: {
+      type: String,
+      required: true
+    },
+    tokens: [{
+      token: {
+        type: String,
+        required: true
+      }
+    }]
   },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
   }
 )
-UserSchema.pre('save', async function (next) {
+userSchema.pre('save', function (next) {
   var user = this
 
   if (!user.isModified('password')) return next()
 
   try {
-    const salt = await bcrypt.genSalt(SALT_WORK_FACTOR)
-    const hash = bcrypt.hash(user.password, salt)
-    user.password = hash
-
-    next()
+    bcrypt.genSalt(config.bcrypt.rounds).then(salt => {
+      bcrypt.hash(user.password, salt).then(hash => {
+        user.password = hash
+        next()
+      })
+    })
   } catch (err) {
     next(err)
   }
 })
 
-UserSchema.methods.comparePassword = async function (password) {
+userSchema.methods.generateAuthToken = async function () {
+  const user = this
+  const token = await jwt.sign({ _id: user._id }, config.jwt.key)
+  user.tokens = user.tokens.concat({ token })
+  await user.save()
+  return token
+}
+
+userSchema.methods.comparePassword = async function (password) {
   let match
   try {
     match = await bcrypt.compare(password, this.password)
@@ -39,4 +80,4 @@ UserSchema.methods.comparePassword = async function (password) {
   return match
 }
 
-module.exports.User = mongoose.model('User', UserSchema)
+module.exports.User = mongoose.model('User', userSchema)

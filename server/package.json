@@ -18,9 +18,11 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "mongoose": "^5.8.11"
+    "mongoose": "^5.8.11",
+    "validator": "^12.2.0"
   },
   "devDependencies": {
     "jest": "^25.1.0",
