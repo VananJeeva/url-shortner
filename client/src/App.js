@@ -1,19 +1,22 @@
-import React from 'react'
-import { Container, Card, CardBody, CardHeader } from 'reactstrap'
+import React, { useState } from 'react'
 import { Router } from './Router'
 
+import { AuthContext } from './contexts/auth'
+
 export function App () {
+  const localAuthData = localStorage.getItem('auth')
+  var storedAuthData = localAuthData && JSON.parse(localAuthData)
+
+  const [authData, setAuthData] = useState(storedAuthData)
+
+  const setData = (data) => {
+    localStorage.setItem('auth', JSON.stringify(data))
+    setAuthData(data)
+  }
+
   return (
-    <Container>
-      <Card>
-        <CardHeader>
-          <h1 className='text-center'>
-            App
-          </h1>
-        </CardHeader>
-        <CardBody>
-          <Router />
-        </CardBody>
-      </Card>
-    </Container>)
+    <AuthContext.Provider value={{ authData, setAuthData: setData }}>
+      <Router />
+    </AuthContext.Provider>
+  )
 }
