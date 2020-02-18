@@ -1,0 +1,167 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: db
+  namespace: default
+data:
+  MONGO_INITDB_ROOT_USERNAME: "root"
+  MONGO_INITDB_ROOT_PASSWORD: "123456"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: db
+  labels:
+    app: db
+spec:
+  ports:
+  - protocol: TCP
+    port: 27017
+    targetPort: 27017
+    name: db-tcp-27017
+  selector:
+    app: db
+  type: ClusterIP
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: db
+  labels:
+    app: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - image: mongo
+          name: db
+          envFrom:
+            - configMapRef:
+                name: db
+          ports:
+            - containerPort: 27017
+              name: db
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: server
+  namespace: default
+data:
+  NODE_ENV: "development"
+  APP_HOST: "0.0.0.0"
+  APP_PORT: "5000"
+  APP_URL: "http://192.168.42.65:32451"
+  DB_URL: "mongodb://10.108.170.144:27017/url-shortner"
+  DB_USER: "root"
+  DB_PASS: "123456"
+  DB_AUTH: "admin"
+  JWT_KEY: "KeyForJWT2020"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: server
+  labels:
+    app: server
+spec:
+  ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
+    name: server-tcp-5000
+  selector:
+    app: server
+  type: NodePort
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: server
+  labels:
+    app: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+        - image: node_url_shortner-server
+          imagePullPolicy: Never
+          name: server
+          envFrom:
+            - configMapRef:
+                name: server
+          ports:
+            - containerPort: 5000
+              name: server
+          command: ['npm', 'run', 'start']
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: client
+  namespace: default
+data:
+  NODE_ENV: "development"
+  APP_HOST: "0.0.0.0"
+  APP_PORT: "5001"
+  APP_URL: "http://192.168.42.65:30432"
+  APP_HMR_PORT: "40000"
+  SERVER_URL: "http://192.168.42.65:32451"
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: client
+  labels:
+    app: client
+spec:
+  ports:
+  - protocol: TCP
+    port: 5001
+    targetPort: 5001
+    name: client-tcp-5001
+  selector:
+    app: client
+  type: NodePort
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: client
+  labels:
+    app: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+        - image: node_url_shortner-client
+          imagePullPolicy: Never
+          name: client
+          envFrom:
+            - configMapRef:
+                name: client
+          ports:
+            - containerPort: 5001
+              name: client
+          command: ['npm', 'run', 'start']
