@@ -1,7 +1,7 @@
 .docker
 
 *node_modules
-*tmp/*
+*/tmp
 *.nyc_output
 *.env
 *.cache

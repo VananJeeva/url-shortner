@@ -1,5 +1,3 @@
-const User = require('../models/user')
-
 module.exports.me = async function (req, res) {
   const user = req.user
 
@@ -14,7 +12,7 @@ module.exports.me = async function (req, res) {
 module.exports.logout = async function (req, res) {
   try {
     req.user.tokens = req.user.tokens.filter((token) => {
-        return token.token != req.token
+      return token.token !== req.token
     })
     await req.user.save()
     res.send({
