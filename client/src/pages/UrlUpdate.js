@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import validator from 'validator'
 import { Row, Col, Card, CardTitle, CardBody, FormGroup, Label, Input, CardFooter, Button } from 'reactstrap'

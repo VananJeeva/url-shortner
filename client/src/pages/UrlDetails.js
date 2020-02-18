@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Row, Col, Card, CardTitle, CardBody } from 'reactstrap'
+import { Row, Col, Card, CardTitle, CardBody, Badge } from 'reactstrap'
 import { urlDetails } from '../utils/api'
 import { useParams } from 'react-router-dom'
 
@@ -31,7 +31,11 @@ export function UrlDetails () {
             {url && (
               <Row className='mt-2' key={url._id}>
                 <Col>{url.originalUrl}</Col>
-                <Col>{url.tinyurl}</Col>
+                <Col>
+                  <Badge href={url.tinyurl} color='light' target='_blank'>
+                    {url.tinyurl}
+                  </Badge>
+                </Col>
               </Row>
             )}
           </CardBody>

@@ -7,7 +7,6 @@ import { useHistory } from 'react-router-dom'
 export function Dashboard () {
   const { authData } = useAuth()
   const history = useHistory()
-
   const [urls, setUrls] = useState(null)
 
   const fetchUrls = () => {

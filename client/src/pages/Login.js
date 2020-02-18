@@ -13,7 +13,8 @@ export function Login () {
   const onSubmit = function (data) {
     authenticate(data).then(response => {
       setAuthData(response)
-      history.push('/dashboard')
+      // history.push('/dashboard')
+      location.href = '/dashboard'
     })
   }
 
