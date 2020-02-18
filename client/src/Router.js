@@ -13,24 +13,28 @@ import { Logout } from './pages/Logout'
 import { UrlDetails } from './pages/UrlDetails'
 import { UrlCreate } from './pages/UrlCreate'
 import { UrlUpdate } from './pages/UrlUpdate'
+import { Footer } from './components/Footer'
 
 export function Router () {
   return (
     <BrowserRouter>
       <Container>
         <Header />
-        <Suspense>
-          <Switch>
-            <Route exact path='/' component={Home} />
-            <BeforeAuthRoute exact path='/register' component={Register} />
-            <BeforeAuthRoute exact path='/login' component={Login} />
-            <AuthRoute exact path='/dashboard' component={Dashboard} />
-            <AuthRoute exact path='/logout' component={Logout} />
-            <AuthRoute exact path='/url/view/:_id' component={UrlDetails} />
-            <AuthRoute exact path='/url/create' component={UrlCreate} />
-            <AuthRoute exact path='/url/edit/:_id' component={UrlUpdate} />
-          </Switch>
-        </Suspense>
+        <div style={{ minHeight: '400px' }}>
+          <Suspense>
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <BeforeAuthRoute exact path='/register' component={Register} />
+              <BeforeAuthRoute exact path='/login' component={Login} />
+              <AuthRoute exact path='/dashboard' component={Dashboard} />
+              <AuthRoute exact path='/logout' component={Logout} />
+              <AuthRoute exact path='/url/view/:_id' component={UrlDetails} />
+              <AuthRoute exact path='/url/create' component={UrlCreate} />
+              <AuthRoute exact path='/url/edit/:_id' component={UrlUpdate} />
+            </Switch>
+          </Suspense>
+        </div>
+        <Footer />
       </Container>
     </BrowserRouter>
   )
