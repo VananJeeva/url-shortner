@@ -1,6 +1,7 @@
-const { Url } = require('../models/url')
 const shortid = require('shortid')
 
+const { Url } = require('../models/url')
+const { Analytics } = require('../models/analytics')
 const { addHttp } = require('../helpers/basic')
 
 module.exports.create = async function (req, res) {
@@ -100,11 +101,20 @@ module.exports.redirect = async function (req, res) {
   const { code } = req.params
   const url = await Url.findOne({ code })
 
+  await url.update({
+    $inc: {
+      'hits': 1
+    }
+  })
+  await Analytics.create({
+    url: url._id,
+    ip: req.ip,
+    browser: req.useragent.browser || '',
+    platform: req.useragent.platform || ''
+  })
   if (url) {
     return res.status(301).redirect(url.originalUrl)
   } else {
     return res.status(404).send('Page not found')
   }
 }
-
-module.exports.update

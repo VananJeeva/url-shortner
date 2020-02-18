@@ -28,6 +28,10 @@ const urlSchema = new mongoose.Schema(
       index: {
         unique: true
       }
+    },
+    hits: {
+      type: Number,
+      default: 0
     }
   },
   {

@@ -1,5 +1,6 @@
 
 const express = require('express')
+const useragent = require('express-useragent')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const { apply: routeApply } = require('./routes')
@@ -13,6 +14,7 @@ var corsOptions = {
 }
 
 app.use(cors(corsOptions))
+app.use(useragent.express())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 

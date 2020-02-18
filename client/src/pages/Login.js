@@ -2,11 +2,11 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { Row, Col, Card, CardTitle, CardBody, FormGroup, Label, Input, CardFooter, Button } from 'reactstrap'
 import { authenticate } from '../utils/api'
-import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom'
 import { useAuth } from '../contexts/auth'
 
 export function Login () {
-  const history = useHistory()
+  // const history = useHistory()
   const { setAuthData } = useAuth()
   const { register, handleSubmit } = useForm()
 
