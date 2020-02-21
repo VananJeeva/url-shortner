@@ -22,25 +22,25 @@ export function UrlDetails () {
           <CardBody>
             <CardTitle className='text-center'>Url Details</CardTitle>
             <Row className='bg-secondary text-light mt-3'>
-              <Col>
+              <Col xs="6">
                 Original URL
               </Col>
-              <Col>
+              <Col xs="5">
                 TinyURL
               </Col>
-              <Col>
+              <Col xs="1">
                 Hits
               </Col>
             </Row>
             {url && (
               <Row className='mt-2' key={url._id}>
-                <Col>{url.originalUrl}</Col>
-                <Col>
-                  <Badge href={url.tinyurl} color='light' target='_blank'>
+                <Col xs="6" className="text-wrap">{url.originalUrl}</Col>
+                <Col xs="5">
+                  <Badge href={url.tinyurl} color='light' target='_blank' className="d-block text-wrap">
                     {url.tinyurl}
                   </Badge>
                 </Col>
-                <Col>{url.hits}</Col>
+                <Col xs="1" className="text-wrap">{url.hits}</Col>
               </Row>
             )}
             <Row className='mt-5'>

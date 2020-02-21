@@ -52,33 +52,34 @@ export function Dashboard () {
               </Col>
             </Row>
             <Row className='bg-secondary text-light mt-3'>
-              <Col>
+              <Col xs="6">
                 Original URL
               </Col>
-              <Col>
+              <Col xs="2">
                 TinyURL
               </Col>
-              <Col>
+              <Col xs="2">
                 Hits
               </Col>
-              <Col>
+              <Col xs="2">
                 Actions
               </Col>
             </Row>
             {urls && urls.length > 0 && urls.map(
               url => (
                 <Row className='mt-2 align-items-center' key={url._id}>
-                  <Col>{url.originalUrl}</Col>
-                  <Col>
-                    <Badge href={url.tinyurl} color='light' target='_blank'>
+                  <Col xs="6" className="text-wrap">{url.originalUrl}</Col>
+                  <Col xs="2">
+                    <Badge href={url.tinyurl} color='light' target='_blank' className="d-block text-wrap">
                       {url.tinyurl}
                     </Badge>
                   </Col>
-                  <Col>{url.hits}</Col>
-                  <Col>
-                    <ButtonGroup>
+                  <Col xs="2" className="text-wrap">{url.hits}</Col>
+                  <Col xs="2">
+                    {/* <ButtonGroup> */}
                       <Button
                         className='btn btn-primary'
+                        size="sm"
                         onClick={e => {
                           history.push(`/url/view/${url._id}`)
                         }}
@@ -87,6 +88,7 @@ export function Dashboard () {
                       </Button>
                       <Button
                         className='btn btn-primary'
+                        size="sm"
                         onClick={e => {
                           history.push(`/url/edit/${url._id}`)
                         }}
@@ -95,13 +97,14 @@ export function Dashboard () {
                       </Button>
                       <Button
                         className='btn btn-primary'
+                        size="sm"
                         onClick={e => {
                           onDelete(url._id)
                         }}
                       >
                         Delete
                       </Button>
-                    </ButtonGroup>
+                    {/* </ButtonGroup> */}
                   </Col>
                 </Row>
               )
