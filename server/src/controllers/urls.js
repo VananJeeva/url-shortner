@@ -102,6 +102,9 @@ module.exports.redirect = async function (req, res) {
   const { code } = req.params
   const url = await Url.findOne({ code })
 
+  if (!url) {
+    return res.status(404).send('Not Found')
+  }
   await url.update({
     $inc: {
       'hits': 1
