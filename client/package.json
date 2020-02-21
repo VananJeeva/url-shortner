@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "parcel serve --port=${APP_PORT} ./index.html --hmr-port=${APP_HMR_PORT}",
     "start": "parcel serve --port=${APP_PORT} ./index.html --no-hmr",
+    "build": "parcel build index.html",
     "lint": "standard --fix | snazzy"
   },
   "author": "",
